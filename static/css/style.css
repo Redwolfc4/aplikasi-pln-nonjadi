@@ -116,25 +116,36 @@
 
 :root {
     --primary-color: #1076dc;
+    --secondary-color: #ffff;
+    --third-color: black;
+    --color-warning: rgb(123, 123, 2);
+    --color-background: rgb(24, 167, 238);
+
 }
 
 /* login */
-#background-login {
+#background-login,
+#background-register {
     background-color: var(--primary-color);
 
 }
 
 #heading-form i {
-    color: black;
+    color: var(--third-color);
 }
 
-#tombol-button-login {
+#tombol-button-login,
+#tombol-button-register {
     background-color: var(--primary-color);
-    color: white;
+    color: var(--secondary-color);
     transition: all .5s;
 }
 
-#tombol-button-login:hover {
-    background-color: rgb(24, 167, 238);
-    color: black
+:is(#tombol-button-login, #tombol-button-register):hover {
+    background-color: var(--color-background);
+    color: var(--third-color)
+}
+
+.text-warn {
+    color: var(--color-warning)
 }
