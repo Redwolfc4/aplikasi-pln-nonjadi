@@ -55,6 +55,17 @@ def add_account():
     password_hash = hashlib.sha256(
         (password_receive).encode('utf-8')).hexdigest()
 
+
+@app.route("/info_akun", methods=['GET'])
+def info_akun():
+    return render_template('info_account.html')
+
+
+@app.route('/data_user', methods=['GET'])
+def data_user():
+    return render_template('data_user.html')
+
+
 # akses lain not found
 
 
