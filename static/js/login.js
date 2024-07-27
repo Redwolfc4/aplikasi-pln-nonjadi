@@ -20,11 +20,12 @@ $(function () {
       },
     });
   });
-
-  // tombol login even saat klik enter
-  $("#form-login").keypress(function (e) {
-    if (e.key === "Enter") {
-      $("#tombol-button-login").click();
-    }
-  });
+  // end record
 });
+// tombol login even saat klik enter
+$("#form-login").keypress(function (e) {
+  if (e.key === "Enter") {
+    $("#tombol-button-login").click();
+  }
+});
+// end login eveb enter

@@ -3,7 +3,7 @@ $("#tombol-button-register").click(function () {
   var username_receive = $("#username").val();
   var email_receive = $("#email").val();
   var password_receive = $("#password").val();
-  var password2_receive = $("password2").val();
+  var password2_receive = $("#password2").val();
 
   // statement
 
@@ -25,7 +25,7 @@ $("#tombol-button-register").click(function () {
   // end username
 
   // email
-  $("#emailFeedback").removeClass("text-warning");
+  $("#emailFeedback").removeClass("text-warn");
   if (email_receive.length === 0 || email_receive === " ") {
     $("#emailFeedback")
       .removeClass("valid-feedback")
@@ -52,7 +52,7 @@ $("#tombol-button-register").click(function () {
   // end email
 
   // password
-  $("#passwordFeedback").removeClass("text-warning");
+  $("#passwordFeedback").removeClass("text-warn");
   if (password_receive.length === 0 || password_receive === " ") {
     $("#passwordFeedback")
       .removeClass("valid-feedback")
@@ -79,7 +79,9 @@ $("#tombol-button-register").click(function () {
   // end password
 
   // confirm password
-  if (password2_receive.length === 0 || password_receive === " ") {
+  $("#password2Feedback").removeClass("text-warn");
+  console.log(password2_receive.length);
+  if (password2_receive.length === 0 || password2_receive === " ") {
     $("#password2Feedback")
       .removeClass("valid-feedback")
       .addClass("invalid-feedback")
@@ -105,9 +107,9 @@ $("#tombol-button-register").click(function () {
   // end statement
 
   var data = {
-    username: username,
-    email: email,
-    password: password,
+    username_give: username_receive,
+    email_give: email_receive,
+    password_give: password_receive,
   };
   $.ajax({
     type: "POST",
@@ -124,20 +126,20 @@ $("#tombol-button-register").click(function () {
 
   // cek email regex
   function is_email(asValue) {
-    var regExp = /^(?=.*[a-zA-Z])[-a-zA-Z0-9_.]{2,10}$/;
+    var regExp = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+(?:\.[a-zA-Z]+).{2,}$/; //angkabesar/kecil+@gmailbesar/kecil+.comkecil/besar
     return regExp.test(asValue);
   }
 
   // cek password regex
   function is_password(asValue) {
-    var regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z!@#$%^&*]{8,20}$/;
+    var regExp =
+      /^(?=.*\d)(?=.*\S)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&]).{8,20}$/;
     return regExp.test(asValue);
   }
 });
 
 // tombol register even saat klik enter
 $("#form-register").keypress(function (e) {
-  console.log(e.key);
   if (e.key === "Enter") {
     $("#tombol-button-register").click();
   }

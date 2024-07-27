@@ -1,6 +1,26 @@
 from flask import Flask, redirect, url_for, render_template, request
+import hashlib
+import datetime
+import mysql.connector as connector
 
+# # koneksi mysql dengan database
+# client = connector.connect(
+#     host="localhost",
+#     user="root",
+#     passwd="",
+# )
+# cursor = client.cursor()
+
+# # buat database
+# cursor.execute('CREATE DATABASE IF NOT EXISTS pembayaran_listrik')
+
+# # arahkan ke database
+# cursor.execute('USE pembayaran_listrik')
+
+# engine
 app = Flask(__name__)
+
+# landing Page
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -10,19 +30,36 @@ def home():
         return render_template('index.html')
     return render_template('index.html')
 
+# tampilkan halaman login
+
 
 @app.route('/login', methods=['GET'])
 def login():
     return render_template('login.html')
+
+# tampilkan halaman register
 
 
 @app.route('/register', methods=['GET'])
 def register():
     return render_template('register.html')
 
+# langkah selanjutnya buat akun
 
-@app.route("/*", methods=['GET'])
-def not_found():
+
+@app.route("/register/auth", methods=['POST'])
+def add_account():
+    username_receive = request.form['username_give']
+    email_receive = request.form['email_give']
+    password_receive = request.form['password_give']
+    password_hash = hashlib.sha256(
+        (password_receive).encode('utf-8')).hexdigest()
+
+# akses lain not found
+
+
+@app.route("/<path>", methods=['GET'])
+def not_found(path):
     return render_template('404.html')
 
 

@@ -1,127 +1,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Mochiy+Pop+P+One&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-.poppins-thin {
-    font-family: "Poppins", sans-serif;
-    font-weight: 100;
-    font-style: normal;
-}
-
-.poppins-extralight {
-    font-family: "Poppins", sans-serif;
-    font-weight: 200;
-    font-style: normal;
-}
-
-.poppins-light {
-    font-family: "Poppins", sans-serif;
-    font-weight: 300;
-    font-style: normal;
-}
-
-.poppins-regular {
-    font-family: "Poppins", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-}
-
-.poppins-medium {
-    font-family: "Poppins", sans-serif;
-    font-weight: 500;
-    font-style: normal;
-}
-
-.poppins-semibold {
-    font-family: "Poppins", sans-serif;
-    font-weight: 600;
-    font-style: normal;
-}
-
-.poppins-bold {
-    font-family: "Poppins", sans-serif;
-    font-weight: 700;
-    font-style: normal;
-}
-
-.poppins-extrabold {
-    font-family: "Poppins", sans-serif;
-    font-weight: 800;
-    font-style: normal;
-}
-
-.poppins-black {
-    font-family: "Poppins", sans-serif;
-    font-weight: 900;
-    font-style: normal;
-}
-
-.poppins-thin-italic {
-    font-family: "Poppins", sans-serif;
-    font-weight: 100;
-    font-style: italic;
-}
-
-.poppins-extralight-italic {
-    font-family: "Poppins", sans-serif;
-    font-weight: 200;
-    font-style: italic;
-}
-
-.poppins-light-italic {
-    font-family: "Poppins", sans-serif;
-    font-weight: 300;
-    font-style: italic;
-}
-
-.poppins-regular-italic {
-    font-family: "Poppins", sans-serif;
-    font-weight: 400;
-    font-style: italic;
-}
-
-.poppins-medium-italic {
-    font-family: "Poppins", sans-serif;
-    font-weight: 500;
-    font-style: italic;
-}
-
-.poppins-semibold-italic {
-    font-family: "Poppins", sans-serif;
-    font-weight: 600;
-    font-style: italic;
-}
-
-.poppins-bold-italic {
-    font-family: "Poppins", sans-serif;
-    font-weight: 700;
-    font-style: italic;
-}
-
-.poppins-extrabold-italic {
-    font-family: "Poppins", sans-serif;
-    font-weight: 800;
-    font-style: italic;
-}
-
-.poppins-black-italic {
-    font-family: "Poppins", sans-serif;
-    font-weight: 900;
-    font-style: italic;
-}
-
-.mochiy-pop-p-one-regular {
-    font-family: "Mochiy Pop P One", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-}
-
 :root {
+    /* auth */
     --primary-color: #1076dc;
     --secondary-color: #ffff;
     --third-color: black;
     --color-warning: rgb(123, 123, 2);
     --color-background: rgb(24, 167, 238);
 
+    /* navbar */
+    --header-height: 3rem;
+    /*ganti jadi 5%*/
+    --nav-width: 68px;
+    --first-color: #4723D9;
+    --first-color-light: #8e7bdc;
+    --first-color-light-hover: #7a5afb;
+    --white-color: #F7F6FB;
+    --body-font: "Poppins", sans-serif;
+    --normal-font-size: 1rem;
+    --z-fixed: 100
 }
+
+*,
+::before,
+::after {
+    box-sizing: border-box
+}
+
+/* login.js and register.js */
 
 /* login */
 #background-login,
@@ -134,6 +40,7 @@
     color: var(--third-color);
 }
 
+/* tombol button login */
 #tombol-button-login,
 #tombol-button-register {
     background-color: var(--primary-color);
@@ -148,4 +55,223 @@
 
 .text-warn {
     color: var(--color-warning)
+}
+
+/* end */
+
+/* index.html */
+#body-pd {
+    margin: var(--header-height) 0 0 0;
+    padding: 0 1rem;
+    font-family: var(--body-font);
+    font-size: var(--normal-font-size);
+    transition: .5s;
+}
+
+a {
+    text-decoration: none
+}
+
+/* header */
+.header {
+    width: 100%;
+    height: var(--header-height);
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+    background-color: var(--white-color);
+    z-index: var(--z-fixed);
+    transition: .5s
+}
+
+/* toggle header */
+.header_toggle {
+    color: var(--first-color);
+    font-size: 1.5rem;
+    cursor: pointer
+}
+
+/* batas profile */
+.profile {
+    overflow-x: hidden;
+    text-align: center;
+    max-width: 100%;
+}
+
+#text-profile {
+    color: var(--first-color);
+    font-size: var(--body-font);
+}
+
+#text-profile::before {
+    content: 'Selamat Datang, ';
+    display: inline-block;
+}
+
+/* sidebar */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -30%;
+    width: var(--nav-width);
+    height: 100vh;
+    background-color: var(--first-color);
+    padding: .5rem 1rem 0 0;
+    transition: .5s;
+    z-index: var(--z-fixed)
+}
+
+/* content sidebar */
+.nav {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden
+}
+
+/* navbar logo */
+.nav_logo,
+.nav_link {
+    display: grid;
+    grid-template-columns: max-content max-content;
+    align-items: center;
+    column-gap: 1rem;
+    padding: .5rem 0 .5rem 1.5rem
+}
+
+.nav_logo {
+    margin-bottom: 2rem
+}
+
+.nav_logo+hr {
+    opacity: 1;
+    width: 100%;
+}
+
+/* icon logo produk */
+.nav_logo-icon {
+    font-size: 1.25rem;
+    color: var(--white-color)
+}
+
+/* logo nama */
+.nav_logo-name {
+    color: var(--white-color);
+}
+
+.nav_link {
+    position: relative;
+    color: var(--first-color-light);
+    margin-bottom: 1.5rem;
+    transition: .3s
+}
+
+/* sidebar link */
+.nav_link:hover {
+    color: var(--white-color)
+}
+
+.nav_icon {
+    font-size: 1.25rem
+}
+
+
+.show {
+    left: 0
+}
+
+.body-pd {
+    padding-left: calc(var(--nav-width) + 1rem)
+}
+
+/* saat link tertuju */
+.active {
+    color: var(--white-color)
+}
+
+.active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 2px;
+    height: 32px;
+    background-color: var(--white-color)
+}
+
+/* end */
+
+/* ===main content=== */
+main {
+    max-width: 100%;
+    max-height: 100%;
+    height: 90vh;
+}
+
+main #heading h4 {
+    color: var(--secondary-color);
+}
+
+main :is(.bi, .bx) {
+    background-color: var(--first-color);
+    padding: 1rem;
+    color: var(--secondary-color);
+    font-size: 2rem;
+}
+
+main :is(#list1, #list2) .sublist {
+    background-color: var(--first-color-light);
+    transition: .3s ease-in-out;
+}
+
+main :is(#list1, #list2) .sublist:hover {
+    background-color: var(--first-color-light-hover);
+}
+
+
+/* ===end=== */
+
+@media screen and (min-width: 768px) {
+
+    /* body */
+    #body-pd {
+        margin: calc(var(--header-height) + 1rem) 0 0 0;
+        padding-left: calc(var(--nav-width) + 2rem)
+    }
+
+    /* header navbar */
+    .header {
+        height: calc(var(--header-height) + 1rem);
+        padding: 0 2rem 0 calc(var(--nav-width) + 2rem)
+    }
+
+    /* header img */
+    .header_img {
+        width: 40px;
+        height: 40px
+    }
+
+    .header_img img {
+        width: 45px
+    }
+
+    /* sidebar */
+    .sidebar {
+        left: 0;
+        padding: 1rem 1rem 0 0
+    }
+
+    /* saay klik toogle */
+    .show {
+        width: calc(var(--nav-width) + 156px)
+    }
+
+    /* ?? */
+    .body-pd {
+        padding-left: calc(var(--nav-width) + 188px)
+    }
 }
