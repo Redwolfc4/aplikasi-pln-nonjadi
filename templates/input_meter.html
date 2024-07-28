@@ -21,24 +21,29 @@
 </head>
 
 <body id="body-pd">
+  {% if users %}
   <!-- header -->
   <header class="header" id="header">
     <div class="header_toggle">
       <i class='bx bx-menu' id="header-toggle"></i>
     </div>
     <div class="profile">
-      <h4 id="text-profile" class="text-nowrap poppins-bold"> John Doe</h4>
+      <h4 id="text-profile" class="text-nowrap poppins-bold"> {{users.user}}</h4>
     </div>
   </header>
   <!-- sidebar -->
   {% include '/rangka/sidebar.html' %}
-
+  {% if users.role == 1 %}
   <!-- input meter -->
   <main id="input_meter">
-    <h1>Pembayaran Meteran</h1>
-    <form id="form-input" method="post">
+    <h1>Inputan Meteran</h1>
+    <form id="form-input" action="/meteran/add" method="post">
       <label for="nama_pelanggan">Nama Pelanggan:</label>
-      <input type="text" id="nama_pelanggan" name="nama_pelanggan"><br><br>
+      <select id="nama_pelanggan" name="nama_pelanggan">
+        {% for data in payloads.result %}
+        <option value="{{data[0]}}">{{data[0]}}</option>
+        {% endfor %}
+      </select><br><br>
       <label for="bulan">Bulan:</label>
       <select id="bulan" name="bulan">
         <option value="Januari">Januari</option>
@@ -60,8 +65,8 @@
       <input type="date" id="tanggal_cek" name="tanggal_cek"><br><br>
       <label for="meteran_awal">Meteran Awal:</label>
       <input type="text" id="meteran_awal" name="meteran_awal"><br><br>
-      <label for="Meteran_akhir">Tanggal Akhir:</label>
-      <input type="text" id="Meteran_akhir" name="Meteran_akhir"><br><br>
+      <label for="Meteran_akhir">Meteran Akhir:</label>
+      <input type="text" id="meteran_akhir" name="meteran_akhir"><br><br>
       <button type="submit" id="btn-simpan">Simpan</button>
     </form>
     <table id="table-data">
@@ -78,9 +83,25 @@
       </thead>
       <tbody id="tbody-data">
         <!-- data akan ditampilkan disini -->
+        {% for data in payloads.result2 %}
+
+        <tr>
+          <td>{{data[1]}}</td>
+          <td>{{data[3]}}</td>
+          <td>{{data[4]}}</td>
+          <td>{{data[2]}}</td>
+          <td>{{'{:,}'.format(data[5]) }} wh</td>
+          <td>{{'{:,}'.format(data[6]) }} wh</td>
+          <td>
+            <button class="btn btn-danger" data-id="{{data[0]}}">Hapus</button>
+          </td>
+        </tr>
+        {% endfor %}
       </tbody>
     </table>
   </main>
+  {% endif %}
+  {% endif %}
 </body>
 <!-- cdn bs js -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
@@ -90,74 +111,19 @@
   crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <!-- import js -->
 <script src="{{url_for('static',filename='js/navbar_sidebar.js')}}"></script>
+<script src="{{url_for('static',filename='js/meter.js')}}"></script>
+{% if users.role == 1 %}
+
+{% else %}
 <script src="{{url_for('static',filename='js/index.js')}}"></script>
+{% endif %}
+{% if response.res in ['success', 'failed'] %}
 <script>
-  // fungsi untuk menampilkan data
-  function tampilkanData() {
-    const tbody = document.getElementById('tbody-data');
-    tbody.innerHTML = '';
-    data.forEach((item, index) => {
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td>${item.nama_pelanggan}</td>
-        <td>${item.bulan}</td>
-        <td>${item.tahun}</td>
-        <td>${item.tanggal_cek}</td>
-        <td>${item.meteran_awal}</td>
-        <td>${item.meteran_akhir}</td>
-        <td>
-          <button class="btn-hapus" data-index="${index}">Hapus</button>
-        </td>
-      `;
-      tbody.appendChild(row);
-    });
-  }
-
-  // fungsi untuk menambahkan data
-  function tambahkanData() {
-    const namaPelanggan = document.getElementById('nama_pelanggan').value;
-    const bulan = document.getElementById('bulan').value;
-    const tahun = document.getElementById('tahun').value;
-    const tanggalCek = document.getElementById('tanggal_cek').value;
-    const meteranAwal = document.getElementById('meteran_awal').value;
-    const meteranAkhir = document.getElementById('meteran_akhir').value;
-
-    data.push({
-      nama_pelanggan: namaPelanggan,
-      bulan: bulan,
-      tahun: tahun,
-      tanggal_cek: tanggalCek,
-      meteran_awal: meteranAwal,
-      meteran_akhir: meteranAkhir
-    });
-
-    tampilkanData();
-  }
-
-  // fungsi untuk menghapus data
-  function hapusData(index) {
-    data.splice(index, 1);
-    tampilkanData();
-  }
-
-  // event listener untuk tombol simpan
-  document.getElementById('btn-simpan').addEventListener('click', tambahkanData);
-
-  // event listener untuk tombol edit
-  document.addEventListener('click', (e) => {
-    if (e.target.classList.contains('btn-edit')) {
-      const index = e.target.dataset.index;
-      editData(index);
-    }
-  });
-
-  // event listener untuk tombol hapus
-  document.addEventListener('click', (e) => {
-    if (e.target.classList.contains('btn-hapus')) {
-      const index = e.target.dataset.index;
-      hapusData(index);
-    }
-  });
+  $(document).ready(function () {
+    alert('{{response.msg}}')
+    window.location.replace('/meteran')
+  })
 </script>
+{% endif %}
 
 </html>

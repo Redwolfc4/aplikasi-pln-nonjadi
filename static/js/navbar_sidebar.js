@@ -21,14 +21,14 @@ $(document).ready(function () {
   //   end
 
   /*===== LINK ACTIVE =====*/
-  const linkColor = document.querySelectorAll(".nav_link");
+  const linkcolor = document.querySelectorAll(".nav_link");
+  const title = $("title").text().split("|")[0].trim();
 
-  function colorLink() {
-    if (linkColor) {
-      linkColor.forEach((l) => l.classList.remove("active"));
-      this.classList.add("active");
+  for (const link of linkcolor) {
+    if (link.textContent.trim() == title) {
+      $(link).addClass("active");
     }
   }
-  linkColor.forEach((l) => l.addEventListener("click", colorLink));
+
   /*===== END =====*/
 });

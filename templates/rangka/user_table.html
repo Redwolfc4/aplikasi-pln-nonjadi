@@ -1,4 +1,4 @@
-<div class="container">
+<div id="data-pelanggan" class="container">
   <div class="row">
     <div class="col-md-12">
       <h2>Data Pelanggan</h2>
@@ -7,7 +7,7 @@
           <tr>
             <th>No</th>
             <th>Nama Pelanggan</th>
-            <th>No. Telp</th>
+            <th>Alamat Email</th>
             <th>Alamat</th>
             <th>No. Meter</th>
             <th>Tarif</th>
@@ -16,82 +16,46 @@
           </tr>
         </thead>
         <tbody>
+
+          {% if payloads %}
+          {% for i in range(0,payloads|length) %}
+
           <tr>
-            <td>1</td>
-            <td>Jane Doe</td>
-            <td>0895359530117</td>
-            <td>Jl. Jend. Sudirman No. 2</td>
-            <td>9876543210</td>
-            <td>Rp 2.000,-/kWh</td>
-            <td>Non-Aktif</td>
+            <td>{{i+1}}</td>
+            <td>{{payloads[i][4]}}</td>
+            <td>{{payloads[i][1]}}</td>
+            <td>{{payloads[i][5]}}</td>
+            <td>{{payloads[i][3]}}</td>
+            <td>{{payloads[i][6]}}</td>
+            <td>Aktif</td>
             <td>
-              <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                data-bs-target="#editModal">Edit</button>
-              <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal">Hapus</button>
+              <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deletedatauserModal"
+                data-id="{{payloads[i][0]}}" data-name="{{payloads[i][4]}}">Hapus</button>
             </td>
           </tr>
+          {% endfor %}
+          {% endif %}
           <!-- Data pelanggan lainnya -->
         </tbody>
       </table>
     </div>
   </div>
-  <!-- Modal Edit -->
-  <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="editModalLabel">Edit Pelanggan</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-          </button>
-        </div>
-        <div class="modal-body">
-          <form>
-            <div class="form-group">
-              <label for="nama_pelanggan">Nama Pelanggan</label>
-              <input type="text" class="form-control" id="nama_pelanggan" placeholder="Nama Pelanggan">
-            </div>
-            <div class="form-group">
-              <label for="alamat">Alamat</label>
-              <input type="text" class="form-control" id="alamat" placeholder="Alamat">
-            </div>
-            <div class="form-group">
-              <label for="no_meter">No. Meter</label>
-              <input type="text" class="form-control" id="no_meter" placeholder="No. Meter">
-            </div>
-            <div class="form-group">
-              <label for="tarif">Tarif</label>
-              <input type="text" class="form-control" id="tarif" placeholder="Tarif">
-            </div>
-            <div class="form-group">
-              <label for="status">Status</label>
-              <select class="form-control" id="status">
-                <option value="Aktif">Aktif</option>
-                <option value="Non-Aktif">Non-Aktif</option>
-              </select>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-      </div>
-    </div>
-  </div>
+
   <!-- Modal delete -->
-  <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal fade" id="deletedatauserModal" tabindex="-1" aria-labelledby="deletedatauserModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="deleteModalLabel">Hapus Data</h1>
+          <h1 class="modal-title fs-5" id="deletedatauserModalLabel">Hapus Data</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <p class="">Anda yakin ingin menghapus user {nama_user}</p>
+          <p>Anda yakin ingin menghapus user </p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-danger">OK</button>
+          <button type="button" class="btn btn-danger" id="confirmdeletedatauser">OK</button>
         </div>
       </div>
     </div>
