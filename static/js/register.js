@@ -117,9 +117,10 @@ $("#tombol-button-register").click(function () {
     data: data,
     success: function (data) {
       if (data["status"] == "success") {
-        window.location.href = "/dashboard";
+        alert(data["msg"]);
+        window.location.replace("/login");
       } else {
-        alert(data["message"]);
+        alert(data["msg"]);
       }
     },
   });

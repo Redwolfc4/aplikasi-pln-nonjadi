@@ -4,18 +4,21 @@ $(function () {
     var email = $("#email").val();
     var password = $("#password").val();
     var data = {
-      email: email,
-      password: password,
+      email_give: email,
+      password_give: password,
     };
     $.ajax({
       type: "POST",
       url: "/login/auth",
       data: data,
       success: function (data) {
-        if (data["status"] == "success") {
-          window.location.href = "/dashboard";
+        if (data["result"] == "success") {
+          $.cookie(data.token_key, data.token, { path: "/" });
+          alert(data.msg);
+          window.location.replace("/");
         } else {
-          alert(data["message"]);
+          alert(data["msg"]);
+          window.location.reload();
         }
       },
     });

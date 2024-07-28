@@ -21,17 +21,20 @@
 </head>
 
 <body id="body-pd">
+    {% if payloads %}
     <!-- header -->
     <header class="header" id="header">
         <div class="header_toggle">
             <i class='bx bx-menu' id="header-toggle"></i>
         </div>
         <div class="profile">
-            <h4 id="text-profile" class="text-nowrap poppins-bold"> John Doe</h4>
+            <h4 id="text-profile" class="text-nowrap poppins-bold"> {{payloads.user}}</h4>
         </div>
     </header>
     <!-- sidebar -->
     {% include '/rangka/sidebar.html' %}
+    {% if payloads.role == 1 %}
+
     <!--Container Main start-->
     <main id="dashboard-main" class="row gap-5 justify-content-center align-items-center">
         <!-- column1 -->
@@ -118,6 +121,8 @@
         </div>
     </main>
     <!--Container Main end-->
+    {% endif %}
+    {% endif %}
 </body>
 <!-- cdn bs js -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
@@ -127,6 +132,20 @@
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <!-- import js -->
 <script src="{{url_for('static',filename='js/navbar_sidebar.js')}}"></script>
+{% if payloads.role == 1 %}
+
+{% else %}
+
 <script src="{{url_for('static',filename='js/index.js')}}"></script>
+{% endif %}
+<script>
+
+    function logout() {
+        alert('Anda telah logout')
+        $.removeCookie('{{token_key}}', { path: '/' });
+        window.location.replace('/')
+    }
+
+</script>
 
 </html>
