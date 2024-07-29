@@ -13,7 +13,7 @@ client = connector.connect(
     host="localhost",
     user="root",
     passwd="",
-    database='Pembayaran_listrik'
+    database='pembayaran_listrik'
 )
 cursor = client.cursor()
 
@@ -65,6 +65,7 @@ def login_account():
         cursor.execute(
             "SELECT * FROM `account` WHERE `email` LIKE %s AND `password` LIKE %s", data)
         hasil = cursor.fetchone()
+        print(hasil)
         if (hasil):
             payload = {
                 'id': hasil[0],
@@ -134,7 +135,6 @@ def home():
     try:
         data = decoder_cookie(token_receive)
         return render_template('index.html', payloads=data, token_key=TOKEN_KEY)
-
     except jwt.ExpiredSignatureError:
         return redirect(url_for('login', msg="Session berakhir,Silahkan Login Kembali"))
     except jwt.exceptions.DecodeError:
@@ -232,6 +232,7 @@ def add_tarif():
             return jsonify({'result': 'failed', 'msg': 'data tarif tidak ditemukan'})
     except Exception as e:
         return jsonify({'result': 'failed', 'msg': str(e)})
+
 # meteran
 
 
@@ -267,23 +268,34 @@ def meteran():
 
 @app.route("/meteran/add", methods=['POST'])
 def add_meteran():
-    try:
-        nama_pelanggan = request.form['nama_pelanggan']
-        bulan = request.form['bulan']
-        tahun = request.form['tahun']
-        tanggal_cek = request.form['tanggal_cek']
-        meteran_awal = request.form['meteran_awal']
-        meteran_akhir = request.form['meteran_akhir']
-        cursor.execute(
-            "INSERT INTO `penggunaan`(`id_penggunaan`, `nama_pelanggan`, `tanggal_pengecekan`, `bulan`, `tahun`, `meter_awal`, `meter_akhir`) VALUES (' ',%s,%s,%s,%s,%s,%s)", (nama_pelanggan, tanggal_cek, bulan, tahun, meteran_awal, meteran_akhir))
-        print(cursor.rowcount)
-        client.commit()
-        if cursor.rowcount > 0:
-            return redirect(url_for('meteran', msg="Data tarif berhasil disimpan", result='success'))
-        else:
-            return jsonify({'result': 'failed', 'msg': 'data tarif tidak ditemukan'})
-    except Exception as e:
-        return jsonify({'result': 'failed', 'msg': str(e)})
+    # try:
+    nama_pelanggan = request.form['nama_pelanggan']
+    bulan = request.form['bulan']
+    tahun = request.form['tahun']
+    tanggal_cek = request.form['tanggal_cek']
+    meteran_awal = request.form['meteran_awal']
+    meteran_akhir = request.form['meteran_akhir']
+    cursor.execute(
+        "INSERT INTO `penggunaan`(`id_penggunaan`, `nama_pelanggan`, `tanggal_pengecekan`, `bulan`, `tahun`, `meter_awal`, `meter_akhir`) VALUES (' ',%s,%s,%s,%s,%s,%s)", (nama_pelanggan, tanggal_cek, bulan, tahun, meteran_awal, meteran_akhir))
+    print(cursor.rowcount)
+    cursor.execute("SELECT * FROM tarif ORDER BY daya ASC")
+    result = cursor.fetchall()
+    cursor.execute("SELECT * FROM tagihann ORDER BY id_tagihan DESC")
+    result2 = cursor.fetchone()
+    print(result2)
+    for j in result:
+        print('a', result2[6], j[1])
+        if result2[6] <= j[1]:
+            cursor.execute(
+                "UPDATE `tagihann` SET `golongan` = %s WHERE `tagihann`.`id_tagihan` = %s", (j[0], result2[0]))
+            break
+    client.commit()
+    if cursor.rowcount > 0:
+        return redirect(url_for('meteran', msg="Data tarif berhasil disimpan", result='success'))
+    else:
+        return jsonify({'result': 'failed', 'msg': 'data tarif tidak ditemukan'})
+    # except Exception as e:
+    #     return jsonify({'result': 'failed', 'msg': str(e)})
 
 
 @app.route("/meteran/delete", methods=['POST'])
@@ -300,15 +312,41 @@ def delete_meter():
             return jsonify({'result': 'failed', 'msg': 'data meter tidak ditemukan'})
     except Exception as e:
         return jsonify({'result': 'failed', 'msg': str(e)})
+
 # tagihan
 
 
 @ app.route("/tagihan", methods=['GET'])
 def tagihan():
-    return render_template('tagihan.html')
+    msg = request.args.get('msg')
+    response = request.args.get('result')
+    # ambil cookie
+    token_receive = request.cookies.get(TOKEN_KEY)
+    try:
+        data2 = {
+            'msg': msg,
+            'res': response
+        }
+        data = decoder_cookie(token_receive)
+        # cari nama pelanggan
+        cursor.execute('SELECT * FROM tagihann')
 
+        result = cursor.fetchall()
+        print(result)
+        payload = {
+            'result': result
+        }
+        # gunakan kondisi saat menambah daya
+        # cursor.execute('SELECT * FROM ')
+        return render_template('tagihan.html', response=data2, payloads=payload, users=data, token_key=TOKEN_KEY)
 
-# akses lain not found
+    except jwt.ExpiredSignatureError:
+        return redirect(url_for('login', msg="Session berakhir,Silahkan Login Kembali"))
+    except jwt.exceptions.DecodeError:
+        return redirect(url_for('login', msg="Session berakhir,Silahkan Login Kembali"))
+    # return render_template('tagihan.html')
+
+    # akses lain not found
 
 
 @ app.route("/<path>", methods=['GET'])

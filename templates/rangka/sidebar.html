@@ -38,7 +38,12 @@
                                 </a>
                         </div>
                 </div>
+                {% if token_key %}
+                <a onclick="logout()" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span
+                                class="nav_name">Logout</span> </a>
+                {% else %}
                 <a href="/login" class="nav_link"> <i class='bx bx-log-in nav_icon'></i> <span
                                 class="nav_name">Login</span> </a>
+                {% endif %}
         </nav>
 </div>
