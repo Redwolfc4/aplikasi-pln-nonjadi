@@ -22,7 +22,7 @@
 
 <body id="body-pd">
   {% if users %}
-  <!-- header -->
+  <!-- header nav-->
   <header class="header" id="header">
     <div class="header_toggle">
       <i class='bx bx-menu' id="header-toggle"></i>
@@ -37,13 +37,16 @@
   <!-- input meter -->
   <main id="input_meter">
     <h1>Inputan Meteran</h1>
-    <form id="form-input" action="/meteran/add" method="post">
+    <!-- form input -->
+    <form id="form-input" action="/meteran/add" method="POST">
+      <!-- nama -->
       <label for="nama_pelanggan">Nama Pelanggan:</label>
       <select id="nama_pelanggan" name="nama_pelanggan">
         {% for data in payloads.result %}
         <option value="{{data[0]}}">{{data[0]}}</option>
         {% endfor %}
       </select><br><br>
+      <!-- bulan -->
       <label for="bulan">Bulan:</label>
       <select id="bulan" name="bulan">
         <option value="Januari">Januari</option>
@@ -59,17 +62,22 @@
         <option value="November">November</option>
         <option value="Desember">Desember</option>
       </select><br><br>
+      <!-- tahun -->
       <label for="tahun">Tahun:</label>
       <input type="number" id="tahun" name="tahun"><br><br>
+      <!-- tanggal cek -->
       <label for="tanggal_cek">Tanggal Cek:</label>
       <input type="date" id="tanggal_cek" name="tanggal_cek"><br><br>
+      <!-- meteran awal -->
       <label for="meteran_awal">Meteran Awal:</label>
       <input type="text" id="meteran_awal" name="meteran_awal"><br><br>
+      <!-- meteran akhir -->
       <label for="Meteran_akhir">Meteran Akhir:</label>
       <input type="text" id="meteran_akhir" name="meteran_akhir"><br><br>
       <button type="submit" id="btn-simpan">Simpan</button>
     </form>
     <table id="table-data">
+      <!-- table heading -->
       <thead>
         <tr>
           <th>Nama Pelanggan</th>
@@ -83,6 +91,7 @@
       </thead>
       <tbody id="tbody-data">
         <!-- data akan ditampilkan disini -->
+        <!-- table data -->
         {% for data in payloads.result2 %}
 
         <tr>
@@ -90,8 +99,8 @@
           <td>{{data[3]}}</td>
           <td>{{data[4]}}</td>
           <td>{{data[2]}}</td>
-          <td>{{'{:,}'.format(data[5]) }} wh</td>
-          <td>{{'{:,}'.format(data[6]) }} wh</td>
+          <td>{{data[5]}}Kwh</td>
+          <td>{{data[6]}}Kwh</td>
           <td>
             <button class="btn btn-danger" data-id="{{data[0]}}">Hapus</button>
           </td>
@@ -116,9 +125,7 @@
 <!-- import js -->
 <script src="{{url_for('static',filename='js/navbar_sidebar.js')}}"></script>
 <script src="{{url_for('static',filename='js/meter.js')}}"></script>
-{% if users.role == 1 %}
-
-{% else %}
+{% if users.role != 1 %}
 <script src="{{url_for('static',filename='js/index.js')}}"></script>
 {% endif %}
 {% if response.res in ['success', 'failed'] %}

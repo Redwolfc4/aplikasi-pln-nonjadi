@@ -42,11 +42,13 @@
                 <div class="col-lg-12">
                     <h2>Tarif Listrik</h2>
                     <form action="/tarif/add" method="post">
+                        <!-- Daya -->
                         <div class="form-group">
                             <label for="daya">Daya</label>
                             <input type="number" id="daya" name="daya" class="form-control"
                                 placeholder="Masukkan tarif">
                         </div>
+                        <!-- tarif -->
                         <div class="form-group">
                             <label for="tarif">Tarif</label>
                             <input type="number" id="tarif" name="tarif" class="form-control"
@@ -55,6 +57,7 @@
                         <button type="submit" id="tambah-tarif" class="btn btn-primary">Tambah Tarif</button>
                     </form>
                     <table id="tabel-tarif" class="table table-striped">
+                        <!-- field -->
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -64,13 +67,14 @@
                                 <th>Aksi</th>
                             </tr>
                         </thead>
+                        <!-- record -->
                         <tbody>
                             {% if payloads %}
                             {% for i in range(0,payloads|length) %}
                             <tr>
                                 <td>{{i+1}}</td>
                                 <td>{{payloads[i][0]}}</td>
-                                <td>{{payloads[i][1]}} Kwh</td>
+                                <td>{{"{:,}".format(payloads[i][1])}} VA</td>
                                 <td>{{ "Rp {:,}".format(payloads[i][2]) }} /Kwh</td>
                                 <td>
                                     <button class="btn btn-danger" data-id="{{payloads[i][0]}}">Hapus</button>

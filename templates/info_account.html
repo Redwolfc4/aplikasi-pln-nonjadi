@@ -18,6 +18,11 @@
     <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
     <!-- font import -->
     <link rel="stylesheet" href="{{url_for('static',filename='css/font_import.css')}}">
+    <!-- alertifyJS -->
+    <!-- CSS -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/alertify.min.css" />
+    <!-- Default theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/default.min.css" />
 </head>
 
 <body id="body-pd">
@@ -26,88 +31,74 @@
         <div class="header_toggle">
             <i class='bx bx-menu' id="header-toggle"></i>
         </div>
-        <div class="profile">
-            <h4 id="text-profile" class="text-nowrap poppins-bold"> John Doe</h4>
-        </div>
     </header>
     <!-- sidebar -->
     {% include '/rangka/sidebar.html' %}
+
+    {% if data %}
 
     <!-- Informasi Akun -->
     <main id="informasi_akun" class="d-flex flex-column justify-content-center gap-3 py-4">
         <div class="row align-items-center p-0 rounded rounded-2 border border-secondary border-3 shadow">
             <div class="card border border-0">
+                <!-- card profil akun -->
                 <div class="card-body d-flex flex-column aling-items-center gap-5">
+                    <!-- profil akun edit bisa langsung -->
                     <h5 class="card-title text-center">Profil Akun</h5>
-                    <div class="card-text d-flex flex-column gap-2">
-                        <div id="info_akun" class="d-flex">
-                            <strong>Nama</strong><strong>: {{ no_meter }}</strong>
+                    <form action="/info_akun/update" method="post">
+                        <!-- nama -->
+                        <div class="mb-3 row align-items-center justify-content-center">
+                            <label for="nama" class="col-sm-2 col-form-label">Nama</label>
+                            <strong class="col-sm-1" style="width: .33333%;">:</strong>
+                            <div class="col-sm-9">
+                                <input type="text" readonly
+                                    class="form-control-plaintext border border-3 border-secondary" id="nama"
+                                    name="nama" value="{{payloads.nama}}" style="padding-inline: .75em;">
+                            </div>
                         </div>
-                        <div id="info_akun" class="d-flex">
-                            <strong>Email</strong><strong>: {{ email }}</strong>
+                        <!-- email -->
+                        <div class="mb-3 row align-items-center justify-content-center">
+                            <label for="Email" class="col-sm-2 col-form-label">Email</label>
+                            <strong class="col-sm-1" style="width: .33333%;">:</strong>
+                            <div class="col-sm-9">
+                                <input type="email" readonly
+                                    class="form-control-plaintext border border-3 border-secondary" id="Email"
+                                    name="email" value="{{payloads.email}}" style="padding-inline: .75em;">
+                            </div>
                         </div>
-                        <div id="info_akun" class="d-flex">
-                            <strong>No. Telepon</strong><strong>: {{ no_telepon }}</strong>
+                        <!-- alamat -->
+                        <div class="mb-3 row align-items-center justify-content-center">
+                            <label for="alamat" class="col-sm-2 col-form-label">Alamat</label>
+                            <strong class="col-sm-1" style="width: .33333%;">:</strong>
+                            <div class="col-sm-9">
+                                <textarea class="form-control border-3 border-secondary " id="alamat" name="alamat"
+                                    rows="5" placeholder="masukkan alamat">{{payloads.alamat}}</textarea>
+                            </div>
                         </div>
-                        <div id="info_akun" class="d-flex">
-                            <strong>Alamat</strong><strong>: {{ alamat }}</strong>
+                        <!-- nomor va -->
+                        <div class="mb-3 row align-items-center justify-content-center">
+                            <label for="no_va" class="col-sm-2 col-form-label">No. Va</label>
+                            <strong class="col-sm-1" style="width: .33333%;">:</strong>
+                            <div class="col-sm-9">
+                                <input type="number" class="form-control border-3 border-secondary" id="no_va"
+                                    name="no_va" value="{{payloads.no_va if payloads.no_va != 0 else ''}}"
+                                    placeholder="masukkan no va">
+                            </div>
                         </div>
-                        <div id="info_akun" class="d-flex">
-                            <strong>No. Meter</strong><strong>: {{ no_meter }}</strong>
+                        <div class="mb-3 row align-items-center justify-content-center">
+                            <div class="col text-center">
+                                <button type="submit" class="btn btn-success me-3">Submit</button>
+                                <button type="reset" class="btn btn-danger"
+                                    onclick="window.location.reload()">Cancel</button>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12 p-0">
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editAkunModal">Edit
-                    Akun</button>
             </div>
         </div>
     </main>
 
-    <!-- Modal Edit Akun -->
-    <div class="modal fade" id="editAkunModal" tabindex="-1" role="dialog" aria-labelledby="editAkunModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editAkunModalLabel">Edit Akun</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="form-group">
-                            <label for="nama">Nama:</label>
-                            <input type="text" class="form-control" id="nama" value="{{ nama }}">
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email:</label>
-                            <input type="email" class="form-control" id="email" value="{{ email }}">
-                        </div>
-                        <div class="form-group">
-                            <label for="no_telepon">No. Telepon:</label>
-                            <input type="text" class="form-control" id="no_telepon" value="{{ no_telepon }}">
-                        </div>
-                        <div class="form-group">
-                            <label for="alamat">Alamat:</label>
-                            <textarea class="form-control" id="alamat">{{ alamat }}</textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="no_meter">No. meter:</label>
-                            <input type="text" class="form-control" id="no_meter" value="{{ no_meter }}">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Batal</button>
-                    <button type="button" class="btn btn-primary">Simpan</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    {% endif %}
 </body>
 <!-- cdn bs js -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
@@ -122,5 +113,31 @@
 <!-- import js -->
 <script src="{{url_for('static',filename='js/navbar_sidebar.js')}}"></script>
 <script src="{{url_for('static',filename='js/index.js')}}"></script>
+<script>
+    function logout() {
+        alert('Anda telah logout')
+        $.removeCookie('{{token_key}}', { path: '/' });
+        window.location.replace('/')
+    }
+</script>
+{% if result %}
+<script>
+    $(document).ready(function () {
+        switch ('{{result}}') {
+            case 'success':
+                alertify.success('{{msg}}', 3);
+                break;
+            case 'failed':
+                alertify.error('{{msg}}', 3);
+                break;
+            default:
+                alertify.warning('{{msg}}', 0);
+                break;
+        }
+    })
+</script>
+{% endif %}
+<!-- JavaScript aletifyJS -->
+<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/alertify.min.js"></script>
 
 </html>

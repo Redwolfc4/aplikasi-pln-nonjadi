@@ -15,6 +15,15 @@ $("#tombol-button-register").click(function () {
       .text("username anda masih kosong, Silahkan isi kembali");
     $("#username").removeClass("is-valid").addClass("is-invalid").focus();
     return;
+  } else if (username_receive.length <= 5) {
+    $("#usernameFeedback")
+      .removeClass("valid-feedback")
+      .addClass("invalid-feedback")
+      .text(
+        "panjang username anda kurang dari 5, silahkan isi nama lengkap yang benar"
+      );
+    $("#username").removeClass("is-valid").addClass("is-invalid").focus();
+    return;
   } else {
     $("#usernameFeedback")
       .removeClass("invalid-feedback")

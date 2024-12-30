@@ -54,8 +54,7 @@
 
 /* isian info akun */
 #info_akun {
-    max-width: 8rem;
-    justify-content: space-between;
+    gap: 1rem;
 }
 
 /* saat minimum 768px */
