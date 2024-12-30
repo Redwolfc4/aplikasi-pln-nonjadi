@@ -1,140 +1,176 @@
 <html>
+  <head>
+    <meta charset="utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Meteran cust|PLNPay</title>
+    <!-- bootstrap cdn -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <!-- bootstrap icons cdn -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+      integrity="sha384-4LISF5TTJX/fLmGSxO53rV4miRxdg84mZsxmO8Rx5jGtp/LbrixFETvWa5a6sESd"
+      crossorigin="anonymous"
+    />
+    <!-- box icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css"
+    />
+    <!-- CSS -->
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/sidebar_navbar.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/input_meter.css')}}"
+    />
+    <!-- font import -->
+    <link
+      rel="stylesheet"
+      href="{{url_for('static',filename='css/font_import.css')}}"
+    />
+  </head>
 
-<head>
-  <meta charset="utf-8">
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Meteran cust|PLNPay</title>
-  <!-- bootstrap cdn -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-  <!-- bootstrap icons cdn -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
-    integrity="sha384-4LISF5TTJX/fLmGSxO53rV4miRxdg84mZsxmO8Rx5jGtp/LbrixFETvWa5a6sESd" crossorigin="anonymous">
-  <!-- box icons -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
-  <!-- CSS -->
-  <link rel="stylesheet" href="{{url_for('static', filename='css/sidebar_navbar.css')}}">
-  <link rel="stylesheet" href="{{url_for('static', filename='css/input_meter.css')}}">
-  <!-- font import -->
-  <link rel="stylesheet" href="{{url_for('static',filename='css/font_import.css')}}">
-</head>
+  <body id="body-pd">
+    {% if users %}
+    <!-- header nav-->
+    <header class="header" id="header">
+      <div class="header_toggle">
+        <i class="bx bx-menu" id="header-toggle"></i>
+      </div>
+      <div class="profile">
+        <h4 id="text-profile" class="text-nowrap poppins-bold">
+          {{users.user}}
+        </h4>
+      </div>
+    </header>
+    <!-- sidebar -->
+    {% include '/rangka/sidebar.html' %} {% if users.role == 1 %}
+    <!-- input meter -->
+    <main id="input_meter">
+      <h1>Inputan Meteran</h1>
+      <!-- form input -->
+      <form id="form-input" action="/meteran/add" method="POST">
+        <!-- nama -->
+        <label for="nama_pelanggan">Nama Pelanggan:</label>
+        <select id="nama_pelanggan" name="nama_pelanggan">
+          {% for data in payloads.result %}
+          <option value="{{data[0]}}">{{data[0]}}</option>
+          {% endfor %}</select
+        ><br /><br />
+        <!-- bulan -->
+        <label for="bulan">Bulan:</label>
+        <select id="bulan" name="bulan">
+          <option value="Januari">Januari</option>
+          <option value="Februari">Februari</option>
+          <option value="Maret">Maret</option>
+          <option value="April">April</option>
+          <option value="Mei">Mei</option>
+          <option value="Juni">Juni</option>
+          <option value="Juli">Juli</option>
+          <option value="Agustus">Agustus</option>
+          <option value="September">September</option>
+          <option value="Oktober">Oktober</option>
+          <option value="November">November</option>
+          <option value="Desember">Desember</option></select
+        ><br /><br />
+        <!-- tahun -->
+        <label for="tahun">Tahun:</label>
+        <input type="number" id="tahun" name="tahun" /><br /><br />
+        <!-- tanggal cek -->
+        <label for="tanggal_cek">Tanggal Cek:</label>
+        <input type="date" id="tanggal_cek" name="tanggal_cek" /><br /><br />
+        <!-- meteran awal -->
+        <label for="meteran_awal">Meteran Awal:</label>
+        <input type="text" id="meteran_awal" name="meteran_awal" /><br /><br />
+        <!-- meteran akhir -->
+        <label for="Meteran_akhir">Meteran Akhir:</label>
+        <input
+          type="text"
+          id="meteran_akhir"
+          name="meteran_akhir"
+        /><br /><br />
+        <button type="submit" id="btn-simpan">Simpan</button>
+      </form>
+      <table id="table-data">
+        <!-- table heading -->
+        <thead>
+          <tr>
+            <th>Nama Pelanggan</th>
+            <th>Bulan</th>
+            <th>Tahun</th>
+            <th>Tanggal Cek</th>
+            <th>Meteran Awal</th>
+            <th>Meteran Akhir</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="tbody-data">
+          <!-- data akan ditampilkan disini -->
+          <!-- table data -->
+          {% for data in payloads.result2 %}
 
-<body id="body-pd">
-  {% if users %}
-  <!-- header nav-->
-  <header class="header" id="header">
-    <div class="header_toggle">
-      <i class='bx bx-menu' id="header-toggle"></i>
-    </div>
-    <div class="profile">
-      <h4 id="text-profile" class="text-nowrap poppins-bold"> {{users.user}}</h4>
-    </div>
-  </header>
-  <!-- sidebar -->
-  {% include '/rangka/sidebar.html' %}
-  {% if users.role == 1 %}
-  <!-- input meter -->
-  <main id="input_meter">
-    <h1>Inputan Meteran</h1>
-    <!-- form input -->
-    <form id="form-input" action="/meteran/add" method="POST">
-      <!-- nama -->
-      <label for="nama_pelanggan">Nama Pelanggan:</label>
-      <select id="nama_pelanggan" name="nama_pelanggan">
-        {% for data in payloads.result %}
-        <option value="{{data[0]}}">{{data[0]}}</option>
-        {% endfor %}
-      </select><br><br>
-      <!-- bulan -->
-      <label for="bulan">Bulan:</label>
-      <select id="bulan" name="bulan">
-        <option value="Januari">Januari</option>
-        <option value="Februari">Februari</option>
-        <option value="Maret">Maret</option>
-        <option value="April">April</option>
-        <option value="Mei">Mei</option>
-        <option value="Juni">Juni</option>
-        <option value="Juli">Juli</option>
-        <option value="Agustus">Agustus</option>
-        <option value="September">September</option>
-        <option value="Oktober">Oktober</option>
-        <option value="November">November</option>
-        <option value="Desember">Desember</option>
-      </select><br><br>
-      <!-- tahun -->
-      <label for="tahun">Tahun:</label>
-      <input type="number" id="tahun" name="tahun"><br><br>
-      <!-- tanggal cek -->
-      <label for="tanggal_cek">Tanggal Cek:</label>
-      <input type="date" id="tanggal_cek" name="tanggal_cek"><br><br>
-      <!-- meteran awal -->
-      <label for="meteran_awal">Meteran Awal:</label>
-      <input type="text" id="meteran_awal" name="meteran_awal"><br><br>
-      <!-- meteran akhir -->
-      <label for="Meteran_akhir">Meteran Akhir:</label>
-      <input type="text" id="meteran_akhir" name="meteran_akhir"><br><br>
-      <button type="submit" id="btn-simpan">Simpan</button>
-    </form>
-    <table id="table-data">
-      <!-- table heading -->
-      <thead>
-        <tr>
-          <th>Nama Pelanggan</th>
-          <th>Bulan</th>
-          <th>Tahun</th>
-          <th>Tanggal Cek</th>
-          <th>Meteran Awal</th>
-          <th>Meteran Akhir</th>
-          <th>Aksi</th>
-        </tr>
-      </thead>
-      <tbody id="tbody-data">
-        <!-- data akan ditampilkan disini -->
-        <!-- table data -->
-        {% for data in payloads.result2 %}
-
-        <tr>
-          <td>{{data[1]}}</td>
-          <td>{{data[3]}}</td>
-          <td>{{data[4]}}</td>
-          <td>{{data[2]}}</td>
-          <td>{{data[5]}}Kwh</td>
-          <td>{{data[6]}}Kwh</td>
-          <td>
-            <button class="btn btn-danger" data-id="{{data[0]}}">Hapus</button>
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </main>
+          <tr>
+            <td>{{data[1]}}</td>
+            <td>{{data[3]}}</td>
+            <td>{{data[4]}}</td>
+            <td>{{data[2]}}</td>
+            <td>{{data[5]}}Kwh</td>
+            <td>{{data[6]}}Kwh</td>
+            <td>
+              <button class="btn btn-danger" data-id="{{data[0]}}">
+                Hapus
+              </button>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </main>
+    {% endif %} {% endif %}
+  </body>
+  <!-- cdn bs js -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- jquery cdn -->
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+    integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  ></script>
+  <!-- jquery cookie -->
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"
+    integrity="sha512-3j3VU6WC5rPQB4Ld1jnLV7Kd5xr+cq9avvhwqzbH/taCRNURoeEpoPBK9pDyeukwSxwRPJ8fDgvYXd6SkaZ2TA=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  ></script>
+  <!-- import js -->
+  <script src="{{url_for('static',filename='js/navbar_sidebar.js')}}"></script>
+  <script src="{{url_for('static',filename='js/meter.js')}}"></script>
+  <script>
+    function logout() {
+      alert("Anda telah logout");
+      $.removeCookie("{{token_key}}", { path: "/" });
+      window.location.replace("/");
+    }
+  </script>
+  {% if users.role != 1 %}
+  <script src="{{url_for('static',filename='js/index.js')}}"></script>
+  {% endif %} {% if response.res in ['success', 'failed'] %}
+  <script>
+    $(document).ready(function () {
+      alert("{{response.msg}}");
+      window.location.replace("/meteran");
+    });
+  </script>
   {% endif %}
-  {% endif %}
-</body>
-<!-- cdn bs js -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
-<!-- jquery cdn -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
-  integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
-  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<!-- jquery cookie -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"
-  integrity="sha512-3j3VU6WC5rPQB4Ld1jnLV7Kd5xr+cq9avvhwqzbH/taCRNURoeEpoPBK9pDyeukwSxwRPJ8fDgvYXd6SkaZ2TA=="
-  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<!-- import js -->
-<script src="{{url_for('static',filename='js/navbar_sidebar.js')}}"></script>
-<script src="{{url_for('static',filename='js/meter.js')}}"></script>
-{% if users.role != 1 %}
-<script src="{{url_for('static',filename='js/index.js')}}"></script>
-{% endif %}
-{% if response.res in ['success', 'failed'] %}
-<script>
-  $(document).ready(function () {
-    alert('{{response.msg}}')
-    window.location.replace('/meteran')
-  })
-</script>
-{% endif %}
-
 </html>

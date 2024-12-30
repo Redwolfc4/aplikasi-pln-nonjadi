@@ -102,6 +102,13 @@
 <script src="{{url_for('static',filename='js/navbar_sidebar.js')}}"></script>
 <script src="{{url_for('static',filename='js/index.js')}}"></script>
 <script src="{{url_for('static',filename='js/tarif.js')}}"></script>
+<script>
+    function logout() {
+      alert("Anda telah logout");
+      $.removeCookie("{{token_key}}", { path: "/" });
+      window.location.replace("/");
+    }
+</script>
 
 {% if response.res in ['success', 'failed'] %}
 <script>

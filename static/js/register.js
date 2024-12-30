@@ -111,6 +111,8 @@ $("#tombol-button-register").click(function () {
       .text("confirm password anda benar");
     $("#password2").removeClass("is-invalid").addClass("is-valid").focus();
   }
+
+  console.log(password2_receive, password_receive);
   // end confirm password
 
   // end statement

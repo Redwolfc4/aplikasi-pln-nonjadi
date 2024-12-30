@@ -118,6 +118,13 @@
 <!-- import js -->
 <script src="{{url_for('static',filename='js/navbar_sidebar.js')}}"></script>
 <script src="{{url_for('static',filename='js/tagihan.js')}}"></script>
+<script>
+    function logout() {
+      alert("Anda telah logout");
+      $.removeCookie("{{token_key}}", { path: "/" });
+      window.location.replace("/");
+    }
+  </script>
 {% if users.role == 1 %}
 
 {% else %}
