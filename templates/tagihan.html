@@ -40,72 +40,64 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h2>Tagihan Listrik</h2>
-                    <form class="d-flex flex-column gap-2">
-                        <div class="form-group" action="/tagihan/add">
-                            <label for="kode_penggunaan">Kode Penggunaan</label>
-                            <input type="text" id="kode_penggunaan" class="form-control" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="nama_pelanggan">Nama Pelanggan:</label>
-                            <select class="form-select">
-                                <option selected>--Select Pelanggan--</option>
+                    <div class="table-responsive">
+                        <table id="tabel-tarif" class="table table-striped table-bordered align-middle">
+                            <!-- table field -->
+                            <thead>
+                                <tr class="table-danger">
+                                    <th>No</th>
+                                    <th>Kode Penggunaan</th>
+                                    <th>Nama Pelanggan</th>
+                                    <th>Golongan</th>
+                                    <th>Bulan</th>
+                                    <th>Tahun</th>
+                                    <th>jumlah Meter</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <!-- table record -->
+                            <tbody>
+                                {% for i in range(0, payloads.result|length) %}
 
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="bulan">Bulan</label>
-                            <input type="text" id="bulan" class="form-control" placeholder="Masukkan Bulan">
-                        </div>
-                        <div class="form-group">
-                            <label for="tahun">Tahun</label>
-                            <input type="text" id="tahun" class="form-control" placeholder="Masukkan tahun">
-                        </div>
-                        <div class="form-group">
-                            <label for="jml_meter">Jumlah meter</label>
-                            <input type="text" id="jml_meter" class="form-control" placeholder="Masukkan Jumlah Meter">
-                        </div>
-                        <div class="form-group">
-                            <label for="status">Status</label>
-                            <select id="status" class="form-control">
-                                <option value="belum dibayar">Belum dibayar</option>
-                                <option value="sudah dibayar">Sudah dibayar</option>
-                            </select>
-                        </div>
-                        <button type="button" id="tambah-tarif" class="btn btn-primary">Tambah Tarif</button>
-                    </form>
-                    <table id="tabel-tarif" class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Kode Penggunaan</th>
-                                <th>Nama Pelanggan</th>
-                                <th>Golongan</th>
-                                <th>Bulan</th>
-                                <th>Tahun</th>
-                                <!-- meter awal + meter akhir dari database -->
-                                <th>jumlah Meter</th>
-                                <!-- pake select option -->
-                                <th>Status</th>
-                                <!-- pake select option -->
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for i in range(0, payloads.result|length) %}
-
-                            <tr>
-                                <td>{{i+1}}</td>
-                                <td>{{payloads.result[i][1]}}</td>
-                                <td>{{payloads.result[i][2]}}</td>
-                                <td>{{payloads.result[i][3]}}</td>
-                                <td>{{payloads.result[i][4]}}</td>
-                                <td>{{payloads.result[i][5]}}</td>
-                                <td>{{payloads.result[i][6]}}</td>
-                                <td>{{payloads.result[i][7]}}</td>
-                            </tr>
-                            {% endfor %}
-                            <!-- Data tarif akan ditampilkan di sini -->
-                        </tbody>
-                    </table>
+                                <tr>
+                                    <td>{{i+1}}</td>
+                                    <td>{{payloads.result[i][1]}}</td>
+                                    <td>{{payloads.result[i][2]}}</td>
+                                    <td>{{payloads.result[i][3]}}</td>
+                                    <td>{{payloads.result[i][4]}}</td>
+                                    <td>{{payloads.result[i][5]}}</td>
+                                    <td>{{payloads.result[i][6]}}</td>
+                                    <td>
+                                        <form action="" class="m-0 d-flex align-items-center">
+                                            <input type="hidden" name="{{payloads.result[i][0]}}">
+                                            <select class=" form-select bg-transparent border {{'border-success' if
+                                            payloads.result[i][7]=='success' else ('border-warning' if
+                                            payloads.result[i][7]=='pending' else ('border-success' if
+                                            payloads.result[i][7]=='failed' else '' ))}} " id=" status" name="status"
+                                                style="--bs-form-select-bg-img: none;">
+                                                <option value="success" {{'selected' if payloads.result[i][7]=='success'
+                                                    else '' }}> Success
+                                                </option>
+                                                <option value="pending" {{'selected' if payloads.result[i][7]=='pending'
+                                                    else '' }}> Pending
+                                                </option>
+                                                <option value="dibatalkan" {{'selected' if
+                                                    payloads.result[i][7]=='dibatalkan' else '' }}> Dibatalkan
+                                                </option>
+                                            </select>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-danger" data-id="{{payloads.result[i][0]}}"><i
+                                                class='bx bx-trash'></i></button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                <!-- Data tarif akan ditampilkan di sini -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -125,7 +117,7 @@
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <!-- import js -->
 <script src="{{url_for('static',filename='js/navbar_sidebar.js')}}"></script>
-<script src="{{url_for('static',filename='js/index.js')}}"></script>
+<script src="{{url_for('static',filename='js/tagihan.js')}}"></script>
 {% if users.role == 1 %}
 
 {% else %}

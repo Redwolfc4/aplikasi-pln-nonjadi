@@ -14,6 +14,7 @@
 
 #form-input input[type="text"],
 #form-input input[type="number"],
+#form-input input[type='date'],
 #form-input select {
     width: 100%;
     height: 40px;

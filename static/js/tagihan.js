@@ -26,3 +26,8 @@ document.addEventListener("click", (e) => {
     hapusdata(index);
   }
 });
+
+// listern select change
+$("#status").change(function () {
+  $(this).form.submit();
+});
